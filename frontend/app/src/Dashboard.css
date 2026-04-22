@@ -1,0 +1,336 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700;800&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── CSS VARIABLES ─────────────────────────────────────────────────────────── */
+:root {
+  --bg:         #ffffff;
+  --surface:    #eeeeee;
+  --surface2:   #9fb0de;
+  --surface3:   #181f30;
+  --border:     #b0b3ba;
+  --border2:    #9197aa;
+  --cyan:       #265cb3;
+  --cyan-dim:   #89a8f2;
+  --cyan-glow:  #1e27de1f;
+  --cyan-glow2: rgb(120, 153, 205);
+  --green:      #00ff9d;
+  --red:        #fe0000;
+  --yellow:     #ffc94d;
+  --purple:     #b06aff;
+  --text:       #050505;
+  --text-dim:   #5e6f88;
+  --text-muted: #9498a0;
+  --mono:       "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --sans:       "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    --r:          6px;
+  --r-lg:       12px;
+}
+
+/* Layout */
+.dashboard {
+  background: #f8fafc;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.dashboard-container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Header */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.dashboard-header h1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.dashboard-header p {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Buttons */
+.primary-btn {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  background: #2563eb;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Stats */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.stat-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-box.blue { background: #eff6ff; color: #2563eb; }
+.icon-box.green { background: #ecfdf5; color: #16a34a; }
+.icon-box.amber { background: #fffbeb; color: #d97706; }
+.icon-box.gray { background: #f1f5f9; color: #475569; }
+
+.stat-value {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Main Grid */
+.main-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+/* Recent Section */
+.recent {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.recent-header {
+    display: flex; 
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem; 
+    padding-left: 1.5rem;
+    padding-right: 1.5rem; 
+    justify-content: space-between; 
+    align-items: center; 
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #caccd0;
+
+}
+
+.recent-header button{
+    padding: 16px;
+    display: flex; 
+    align-items: center; 
+    gap: 0.25rem; 
+    font-size: 0.875rem; 
+    line-height: 1.25rem; 
+    font-weight: 550;
+    background-color: #ffffff;
+    border:none;
+    color: #2563eb;
+}
+
+.recent-header button:hover{
+    cursor: pointer;
+}
+
+.recent-list {
+    border-top-width: 1px; 
+    border-color: #F9FAFB; 
+}
+
+/* Each row */
+.recent-item {
+    display: flex; 
+    padding-top: 0.875rem;
+    padding-bottom: 0.875rem; 
+    padding-left: 1.5rem;
+    padding-right: 1.5rem; 
+    gap: 1rem; 
+    align-items: center; 
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms; 
+    cursor: pointer; 
+}
+
+.recent-item:hover {
+  background:  #F9FAFB
+}
+
+.recent-item svg {
+  color: #EF4444; 
+}
+
+.recent-item:last-child {
+  border-bottom: none;
+}
+
+/* File info */
+.recent-info {
+  flex: 1 1 0%; 
+    min-width: 0; 
+}
+
+.recent-name {
+  font-size: 0.875rem;
+    line-height: 1.25rem; 
+    font-weight: 500; 
+    color: #111827; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; 
+}
+
+.recent-meta {
+  margin-top: 0.125rem; 
+    font-size: 0.75rem;
+    line-height: 1rem; 
+    color: #9CA3AF; 
+}
+
+/* Status section */
+.recent-status {
+    width: 160px; /* fixed width keeps layout stable */
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.status-text {
+    font-size: 0.75rem;
+    line-height: 1rem; 
+    font-weight: 500; 
+    color: #111827; 
+
+}
+
+/* Progress bar */
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+    background: #16a34a; ;
+  border-radius: 999px;
+}
+.progress.amber { background: #d97706; }
+
+/* Side */
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.card-header {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.usage-item {
+    margin-top: 0.75rem; 
+    margin-top: 0.875rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem
+}
+
+.usage-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.reset-text {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 10px;
+}
+
+/* Quick Card */
+.quick-card {
+  background: #2563eb;
+  color: white;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.quick-card svg{
+    background-color: #4080e8;
+    border-radius: 20%;
+    height: auto;
+    width: 34px;
+    padding: 6px;
+    color: white;
+}
+
+.quick-card h3 {
+    margin-bottom: 0.25rem; 
+    font-size: 0.875rem;
+    line-height: 1.25rem; 
+    font-weight: 600; 
+}
+
+.quick-card p {
+    margin-bottom: 1rem; 
+    font-size: 0.75rem;
+    line-height: 1rem; 
+    color: #BFDBFE; 
+}
+
+
+
+.white-btn {
+  background: white;
+  color: #2563eb;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+}
