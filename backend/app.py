@@ -23,6 +23,8 @@ from config import Config, UploadConfig
 
 from models import db, ExtractionRecord, ExtractionResultStatus
 from routes.history import history_bp
+from routes.dashboard import result_status_bp
+
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -478,6 +480,7 @@ def health():
     })
 
 app.register_blueprint(history_bp, url_prefix="/api")
+app.register_blueprint(result_status_bp, url_prefix="/api")
 
 @app.route("/api/pdf/<path:filename>", methods=["GET"])
 def serve_pdf(filename):
