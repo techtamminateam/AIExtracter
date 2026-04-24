@@ -3,7 +3,7 @@ import { Play } from "lucide-react";
 import * as XLSX from "xlsx";
 import "./DocExtract.css";
 import { History } from "./history";
-import {Dashboard} from "./Dashboard";
+import { Dashboard } from "./Dashboard";
 
 
 // ── PRESETS ───────────────────────────────────────────────────────────────────
@@ -62,9 +62,9 @@ const PRESETS_FINANCE = [
     prompt: "Extract the total revenue or total income for the period from the Profit & Loss statement or Income Statement. Look for 'Total Revenue', 'Total Income', 'Net Revenue', or 'Revenue from operations'. Return only the numerical value."
   },
   {
-    label : "Net Income",
-    field : "Net Income",
-    prompt : "Extract the net income or profit attributable to shareholders from the Profit & Loss statement. Look for 'Net Income', 'Profit for the period', 'Profit after tax', or 'Earnings for the period'. Return only the numerical value."
+    label: "Net Income",
+    field: "Net Income",
+    prompt: "Extract the net income or profit attributable to shareholders from the Profit & Loss statement. Look for 'Net Income', 'Profit for the period', 'Profit after tax', or 'Earnings for the period'. Return only the numerical value."
   },
   {
     label: "Gross Profit",
@@ -858,12 +858,12 @@ function NewExtractionUI({
 
       {/* ══════════════════ NORMAL EXTRACTION SCREEN ══════════════════ */}
       {!verifyMode && (
-      <div className="de-wrap">
+        <div className="de-wrap">
 
-        
-        <div className="de-surface-2">
-        {/* ── STEP 1: UPLOAD ── */}
-          <div
+
+          <div className="de-surface-2">
+            {/* ── STEP 1: UPLOAD ── */}
+            <div
               className={`de-drop-zone${dragging ? " dragover" : ""}`}
               onDragOver={onDragOver}
               onDragLeave={onDragLeave}
@@ -882,292 +882,292 @@ function NewExtractionUI({
               <div className="de-up-sub">
                 Accepts <b>.pdf</b> files
               </div>
-            
 
-            <div className={`de-file-info${file ? " show" : ""}`}>
-              <svg className="de-file-info-font" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
-                <polyline points="14 2 14 8 20 8" />
-              </svg>
-              <span className="de-file-info-font">{file?.name}</span>
-              <span style={{ color: "var(--text-dim)" }}>
-                {file ? `(${(file.size / 1024 / 1024).toFixed(2)} MB)` : ""}
-              </span>
-              <span className="rm" onClick={clearFile}>✕</span>
-            </div>
-          </div>
-        
-          {/* ── STEP 2: DATA POINTS ── */}
-          <div className="de-card">
-            <div className="de-step-hd mt8">
-              <div className="de-step-hd-sub">
-                <div>
-                  <div className="de-step-title">Define Data Points &amp; Prompts</div>
-                  <div className="de-step-sub">Each field has its own extraction instruction</div>
-                </div>
-                <button
-                  className={`de-extract-btn${loading ? " loading" : ""}`}
-                  onClick={runExtraction}
-                  disabled={!canRun || loading}
-                >
-                  <span className="de-btn-txt"><Play size={16} className="de-btn-icon"/> Run Extraction</span>
-                  <span className="de-btn-spin" />
-              </button>
+
+              <div className={`de-file-info${file ? " show" : ""}`}>
+                <svg className="de-file-info-font" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                </svg>
+                <span className="de-file-info-font">{file?.name}</span>
+                <span style={{ color: "var(--text-dim)" }}>
+                  {file ? `(${(file.size / 1024 / 1024).toFixed(2)} MB)` : ""}
+                </span>
+                <span className="rm" onClick={clearFile}>✕</span>
               </div>
-              
             </div>
+
+            {/* ── STEP 2: DATA POINTS ── */}
+            <div className="de-card">
+              <div className="de-step-hd mt8">
+                <div className="de-step-hd-sub">
+                  <div>
+                    <div className="de-step-title">Define Data Points &amp; Prompts</div>
+                    <div className="de-step-sub">Each field has its own extraction instruction</div>
+                  </div>
+                  <button
+                    className={`de-extract-btn${loading ? " loading" : ""}`}
+                    onClick={runExtraction}
+                    disabled={!canRun || loading}
+                  >
+                    <span className="de-btn-txt"><Play size={16} className="de-btn-icon" /> Run Extraction</span>
+                    <span className="de-btn-spin" />
+                  </button>
+                </div>
+
+              </div>
               <div className="de-card-surface">
-          {/* Add row */}
-          <div className="de-dp-add-labels">
-            <span>FIELD NAME</span>
-            <span>EXTRACTION PROMPT / INSTRUCTION</span>
-          </div>
-          <div className="de-dp-add-row">
-            <input
-              type="text"
-              className="de-dp-field-input"
-              placeholder="e.g. Policy Number"
-              autoComplete="off"
-              value={newField}
-              onChange={(e) => setNewField(e.target.value)}
-              onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addDataPoint(); } }}
-            />
-            <textarea
-              className="de-dp-prompt-input"
-              rows={1}
-              placeholder='e.g. Extract only the policy number. Return in format "POL-XXXXXXXX". If not found return null.'
-              value={newPrompt}
-              onChange={(e) => setNewPrompt(e.target.value)}
-            />
-            <select 
-              className="de-dp-add-btn" 
-              onChange={handlePresetChange} 
-              value={preset} // Keep it controlled so it always snaps back to the placeholder
-            >
-              <option value="Invoice Checking">Invoice Checking</option>
-              <option value="Financial Statements">Financial Statements</option>
-              <option value="Legal Documents">Legal Documents</option>
-              <option value="Health Care Documents">Health Care Documents</option>
-              <option value="MSA Extraction">MSA Extraction</option>
-              <option value="SOW Extraction">SOW Extraction</option>
-            </select>
-            <button className="de-dp-add-btn" onClick={() => addDataPoint()}>
-              + Add Field
-            </button>
-
-          </div>
-
-          {/* Data point list */}
-          <div className="de-dp-list">
-            {dataPoints.length === 0 && (
-              <div className="de-dp-empty">
-                No data points added yet — add a field name and its extraction instruction above.
-              </div>
-            )}
-
-            {dataPoints.map((dp, i) => {
-              const hasPrompt = dp.prompt.trim().length > 0;
-              const isOpen    = expanded[dp.id] ?? false;
-
-              return (
-                <div key={dp.id} className="de-dp-item">
-                  <div className="de-dp-item-head">
-                    <div className="de-dp-item-num">{String(i + 1).padStart(2, "0")}</div>
-                    <div className="de-dp-item-name">
-                      <input
-                        value={dp.field}
-                        placeholder="Field name"
-                        onChange={(e) => updateDpField(dp.id, e.target.value)}
-                        onKeyDown={(e) => { if (e.key === "Enter") e.preventDefault(); }}
-                      />
-                    </div>
-                    <button
-                      className={`de-dp-expand-btn${isOpen ? " open" : ""}`}
-                      onClick={() => toggleExpand(dp.id)}
-                    >
-                      <span style={{ fontSize: "10px", letterSpacing: ".5px" }}>
-                        {hasPrompt ? "PROMPT ✓" : "ADD PROMPT"}
-                      </span>
-                      <span className="de-arrow">▾</span>
-                    </button>
-                    <button
-                      className="de-dp-delete-btn"
-                      onClick={() => removeDataPoint(dp.id)}
-                      title="Remove"
-                    >
-                      ✕
-                    </button>
-                  </div>
-
-                  <div className={`de-dp-item-body${isOpen ? " open" : ""}`}>
-                    <div className="de-dp-prompt-label">
-                      <span className="pl-dot" /> Extraction Instruction
-                    </div>
-                    <textarea
-                      className="de-dp-item-textarea"
-                      placeholder="Describe exactly how to extract this field — format, fallback rules, where to look in the document, etc."
-                      value={dp.prompt}
-                      onChange={(e) => updateDpPrompt(dp.id, e.target.value)}
-                    />
-                    <div className="de-dp-prompt-status">
-                      {hasPrompt ? (
-                        <span className="de-pst-filled">✓ Prompt defined</span>
-                      ) : (
-                        <span className="de-pst-empty">⚠ No prompt — field will be sent without instruction</span>
-                      )}
-                    </div>
-                  </div>
+                {/* Add row */}
+                <div className="de-dp-add-labels">
+                  <span>FIELD NAME</span>
+                  <span>EXTRACTION PROMPT / INSTRUCTION</span>
                 </div>
-              );
-            })}
-          </div>
+                <div className="de-dp-add-row">
+                  <input
+                    type="text"
+                    className="de-dp-field-input"
+                    placeholder="e.g. Policy Number"
+                    autoComplete="off"
+                    value={newField}
+                    onChange={(e) => setNewField(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addDataPoint(); } }}
+                  />
+                  <textarea
+                    className="de-dp-prompt-input"
+                    rows={1}
+                    placeholder='e.g. Extract only the policy number. Return in format "POL-XXXXXXXX". If not found return null.'
+                    value={newPrompt}
+                    onChange={(e) => setNewPrompt(e.target.value)}
+                  />
+                  <select
+                    className="de-dp-add-btn"
+                    onChange={handlePresetChange}
+                    value={preset} // Keep it controlled so it always snaps back to the placeholder
+                  >
+                    <option value="Invoice Checking">Invoice Checking</option>
+                    <option value="Financial Statements">Financial Statements</option>
+                    <option value="Legal Documents">Legal Documents</option>
+                    <option value="Health Care Documents">Health Care Documents</option>
+                    <option value="MSA Extraction">MSA Extraction</option>
+                    <option value="SOW Extraction">SOW Extraction</option>
+                  </select>
+                  <button className="de-dp-add-btn" onClick={() => addDataPoint()}>
+                    + Add Field
+                  </button>
 
-          {/* Presets */}
-          <div className="de-presets-row">
-            <span className="de-presets-label">Quick add:</span>
-            {selectedPreset.map((p) => (
-              <button
-                key={p.field}
-                className="de-preset-chip"
-                onClick={() => addPreset(p.field, p.prompt)}
-              >
-                {p.label}
-              </button>
-            ))}
-          </div>
+                </div>
 
-          {/* Summary bar */}
-          <div className="de-summary-bar">
-            <div className="de-sb-stat">
-              Total Fields: <span className="sv">{dataPoints.length}</span>
-            </div>
-            <div className="de-sb-sep" />
-            <div className="de-sb-stat">
-              With Prompts: <span className="sv ok">{withPrompts}</span>
-            </div>
-            <div className="de-sb-sep" />
-            <div className="de-sb-stat">
-              Missing Prompts:{" "}
-              <span className={`sv ${missingCount > 0 ? "warn" : "ok"}`}>{missingCount}</span>
-            </div>
-          </div>
-              </div>
-          </div>
-          
+                {/* Data point list */}
+                <div className="de-dp-list">
+                  {dataPoints.length === 0 && (
+                    <div className="de-dp-empty">
+                      No data points added yet — add a field name and its extraction instruction above.
+                    </div>
+                  )}
 
-        
+                  {dataPoints.map((dp, i) => {
+                    const hasPrompt = dp.prompt.trim().length > 0;
+                    const isOpen = expanded[dp.id] ?? false;
 
-        {/* ── RUN BAR ── */}
-        <div className="de-run-bar">
-          <div className="de-run-info">
-            <div>
-              PDF: <span className="rv">{file ? file.name : "—"}</span>
-            </div>
-            <div>
-              Fields: <span className="rv">{dataPoints.length}</span>
-              &nbsp;·&nbsp; Backend: <span className="rv">localhost:5000</span>
-            </div>
-          </div>
-          
-        </div>
-
-        {/* ── PROGRESS ── */}
-        <div className="de-prog-msg">{prog.msg}</div>
-        <div className={`de-prog-wrap${prog.show ? " show" : ""}`}>
-          <div className="de-prog-bar" style={{ width: prog.pct + "%" }} />
-        </div>
-
-        {/* ── ERROR ── */}
-        {error && <div className="de-error-box show">⚠ {error}</div>}
-
-        {/* ── RESULTS ── */}
-        <div ref={resultSecRef} className={`de-results-section${result ? " show" : ""}`}>
-          <div className="de-res-header">
-            <div className="de-res-title-g">
-              <div className="de-res-dot" />
-              <span className="de-res-title">Extraction Results</span>
-              <span className="de-res-count">{resultEntries.length} fields</span>
-            </div>
-            <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
-              <div className="de-vtoggle">
-                <button
-                  className={`de-vt${view === "table" ? " active" : ""}`}
-                  onClick={() => setView("table")}
-                >
-                  Table
-                </button>
-                <button
-                  className={`de-vt${view === "json" ? " active" : ""}`}
-                  onClick={() => setView("json")}
-                >
-                  JSON
-                </button>
-              </div>
-              <div className="de-res-acts">
-                <button className="de-act-btn" onClick={() => setVerifyMode(true)}>
-                  ↗ Review with PDF
-                </button>
-                <button className="de-act-btn" onClick={downloadExcel}>
-                  ↓ Download Excel
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Table view */}
-          {view === "table" && (
-            <div style={{ overflowX: "auto", padding: "20px 0" }}>
-              <table style={{
-                width: "100%",
-                borderCollapse: "collapse",
-                fontSize: "14px",
-                fontFamily: "var(--font-mono)"
-              }}>
-                <thead>
-                  <tr style={{ backgroundColor: "var(--bg-secondary)", borderBottom: "2px solid var(--border)" }}>
-                    <th style={{ padding: "12px 16px", textAlign: "left", fontWeight: "600", color: "var(--text-primary)" }}>Field</th>
-                    <th style={{ padding: "12px 16px", textAlign: "left", fontWeight: "600", color: "var(--text-primary)" }}>Value</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {resultEntries.map(([k, v], idx) => {
-                    const isNull = v === null || v === undefined;
-                    const cellValue = isNull ? "null" : typeof v === "object" ? JSON.stringify(v, null, 2) : String(v);
                     return (
-                      <tr key={k} style={{ borderBottom: "1px solid var(--border)", backgroundColor: idx % 2 === 0 ? "transparent" : "rgba(255,255,255,0.02)" }}>
-                        <td style={{ padding: "12px 16px", color: "var(--text-secondary)", fontWeight: "500", maxWidth: "300px", wordBreak: "break-word" }}>{k}</td>
-                        <td style={{ padding: "12px 16px", color: isNull ? "var(--text-dim)" : "var(--text-primary)", maxWidth: "500px", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>{cellValue}</td>
-                      </tr>
+                      <div key={dp.id} className="de-dp-item">
+                        <div className="de-dp-item-head">
+                          <div className="de-dp-item-num">{String(i + 1).padStart(2, "0")}</div>
+                          <div className="de-dp-item-name">
+                            <input
+                              value={dp.field}
+                              placeholder="Field name"
+                              onChange={(e) => updateDpField(dp.id, e.target.value)}
+                              onKeyDown={(e) => { if (e.key === "Enter") e.preventDefault(); }}
+                            />
+                          </div>
+                          <button
+                            className={`de-dp-expand-btn${isOpen ? " open" : ""}`}
+                            onClick={() => toggleExpand(dp.id)}
+                          >
+                            <span style={{ fontSize: "10px", letterSpacing: ".5px" }}>
+                              {hasPrompt ? "PROMPT ✓" : "ADD PROMPT"}
+                            </span>
+                            <span className="de-arrow">▾</span>
+                          </button>
+                          <button
+                            className="de-dp-delete-btn"
+                            onClick={() => removeDataPoint(dp.id)}
+                            title="Remove"
+                          >
+                            ✕
+                          </button>
+                        </div>
+
+                        <div className={`de-dp-item-body${isOpen ? " open" : ""}`}>
+                          <div className="de-dp-prompt-label">
+                            <span className="pl-dot" /> Extraction Instruction
+                          </div>
+                          <textarea
+                            className="de-dp-item-textarea"
+                            placeholder="Describe exactly how to extract this field — format, fallback rules, where to look in the document, etc."
+                            value={dp.prompt}
+                            onChange={(e) => updateDpPrompt(dp.id, e.target.value)}
+                          />
+                          <div className="de-dp-prompt-status">
+                            {hasPrompt ? (
+                              <span className="de-pst-filled">✓ Prompt defined</span>
+                            ) : (
+                              <span className="de-pst-empty">⚠ No prompt — field will be sent without instruction</span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
                     );
                   })}
-                </tbody>
-              </table>
-            </div>
-          )}
-
-          {/* JSON view */}
-          {view === "json" && (
-            <div className="de-json-viewer">
-              <div className="de-jvt">
-                <div className="de-jv-dots">
-                  <div className="de-jv-dot" />
-                  <div className="de-jv-dot" />
-                  <div className="de-jv-dot" />
                 </div>
-                <span className="de-jv-fn">{resultFilename}</span>
-                <span />
+
+                {/* Presets */}
+                <div className="de-presets-row">
+                  <span className="de-presets-label">Quick add:</span>
+                  {selectedPreset.map((p) => (
+                    <button
+                      key={p.field}
+                      className="de-preset-chip"
+                      onClick={() => addPreset(p.field, p.prompt)}
+                    >
+                      {p.label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Summary bar */}
+                <div className="de-summary-bar">
+                  <div className="de-sb-stat">
+                    Total Fields: <span className="sv">{dataPoints.length}</span>
+                  </div>
+                  <div className="de-sb-sep" />
+                  <div className="de-sb-stat">
+                    With Prompts: <span className="sv ok">{withPrompts}</span>
+                  </div>
+                  <div className="de-sb-sep" />
+                  <div className="de-sb-stat">
+                    Missing Prompts:{" "}
+                    <span className={`sv ${missingCount > 0 ? "warn" : "ok"}`}>{missingCount}</span>
+                  </div>
+                </div>
               </div>
-              <pre
-                className="de-json-pre"
-                dangerouslySetInnerHTML={{
-                  __html: result ? highlight(JSON.stringify(result, null, 2)) : "",
-                }}
-              />
             </div>
-          )}
+
+
+
+
+            {/* ── RUN BAR ── */}
+            <div className="de-run-bar">
+              <div className="de-run-info">
+                <div>
+                  PDF: <span className="rv">{file ? file.name : "—"}</span>
+                </div>
+                <div>
+                  Fields: <span className="rv">{dataPoints.length}</span>
+                  &nbsp;·&nbsp; Backend: <span className="rv">localhost:5000</span>
+                </div>
+              </div>
+
+            </div>
+
+            {/* ── PROGRESS ── */}
+            <div className="de-prog-msg">{prog.msg}</div>
+            <div className={`de-prog-wrap${prog.show ? " show" : ""}`}>
+              <div className="de-prog-bar" style={{ width: prog.pct + "%" }} />
+            </div>
+
+            {/* ── ERROR ── */}
+            {error && <div className="de-error-box show">⚠ {error}</div>}
+
+            {/* ── RESULTS ── */}
+            <div ref={resultSecRef} className={`de-results-section${result ? " show" : ""}`}>
+              <div className="de-res-header">
+                <div className="de-res-title-g">
+                  <div className="de-res-dot" />
+                  <span className="de-res-title">Extraction Results</span>
+                  <span className="de-res-count">{resultEntries.length} fields</span>
+                </div>
+                <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
+                  <div className="de-vtoggle">
+                    <button
+                      className={`de-vt${view === "table" ? " active" : ""}`}
+                      onClick={() => setView("table")}
+                    >
+                      Table
+                    </button>
+                    <button
+                      className={`de-vt${view === "json" ? " active" : ""}`}
+                      onClick={() => setView("json")}
+                    >
+                      JSON
+                    </button>
+                  </div>
+                  <div className="de-res-acts">
+                    <button className="de-act-btn" onClick={() => setVerifyMode(true)}>
+                      ↗ Review with PDF
+                    </button>
+                    <button className="de-act-btn" onClick={downloadExcel}>
+                      ↓ Download Excel
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Table view */}
+              {view === "table" && (
+                <div style={{ overflowX: "auto", padding: "20px 0" }}>
+                  <table style={{
+                    width: "100%",
+                    borderCollapse: "collapse",
+                    fontSize: "14px",
+                    fontFamily: "var(--font-mono)"
+                  }}>
+                    <thead>
+                      <tr style={{ backgroundColor: "var(--bg-secondary)", borderBottom: "2px solid var(--border)" }}>
+                        <th style={{ padding: "12px 16px", textAlign: "left", fontWeight: "600", color: "var(--text-primary)" }}>Field</th>
+                        <th style={{ padding: "12px 16px", textAlign: "left", fontWeight: "600", color: "var(--text-primary)" }}>Value</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {resultEntries.map(([k, v], idx) => {
+                        const isNull = v === null || v === undefined;
+                        const cellValue = isNull ? "null" : typeof v === "object" ? JSON.stringify(v, null, 2) : String(v);
+                        return (
+                          <tr key={k} style={{ borderBottom: "1px solid var(--border)", backgroundColor: idx % 2 === 0 ? "transparent" : "rgba(255,255,255,0.02)" }}>
+                            <td style={{ padding: "12px 16px", color: "var(--text-secondary)", fontWeight: "500", maxWidth: "300px", wordBreak: "break-word" }}>{k}</td>
+                            <td style={{ padding: "12px 16px", color: isNull ? "var(--text-dim)" : "var(--text-primary)", maxWidth: "500px", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>{cellValue}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+              {/* JSON view */}
+              {view === "json" && (
+                <div className="de-json-viewer">
+                  <div className="de-jvt">
+                    <div className="de-jv-dots">
+                      <div className="de-jv-dot" />
+                      <div className="de-jv-dot" />
+                      <div className="de-jv-dot" />
+                    </div>
+                    <span className="de-jv-fn">{resultFilename}</span>
+                    <span />
+                  </div>
+                  <pre
+                    className="de-json-pre"
+                    dangerouslySetInnerHTML={{
+                      __html: result ? highlight(JSON.stringify(result, null, 2)) : "",
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-        </div>
-      </div>
       )}
     </>
   );
@@ -1176,21 +1176,21 @@ function NewExtractionUI({
 // ── COMPONENT ─────────────────────────────────────────────────────────────────
 export default function DocExtract() {
   // State
-  const [file, setFileState]        = useState(null);
+  const [file, setFileState] = useState(null);
   const [dataPoints, setDataPoints] = useState([]);
-  const [newField, setNewField]     = useState("");
-  const [newPrompt, setNewPrompt]   = useState("");
-  const [dragging, setDragging]     = useState(false);
-  const [expanded, setExpanded]     = useState({});
-  const [result, setResult]         = useState(null);
-  const [view, setView]             = useState("cards");
-  const [loading, setLoading]       = useState(false);
-  const [prog, setProg]             = useState({ show: false, pct: 0, msg: "" });
-  const [error, setError]           = useState("");
+  const [newField, setNewField] = useState("");
+  const [newPrompt, setNewPrompt] = useState("");
+  const [dragging, setDragging] = useState(false);
+  const [expanded, setExpanded] = useState({});
+  const [result, setResult] = useState(null);
+  const [view, setView] = useState("cards");
+  const [loading, setLoading] = useState(false);
+  const [prog, setProg] = useState({ show: false, pct: 0, msg: "" });
+  const [error, setError] = useState("");
   const [copiedJSON, setCopiedJSON] = useState(false);
   const [selectedPreset, setSelectedPreset] = useState([]);
   const [preset, setPreset] = useState("");
-  const [activeNav, setActiveNav] = useState("extraction");
+  const [activeNav, setActiveNav] = useState("dashboard");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [verifyMode, setVerifyMode] = useState(false);
   const [verifiedFields, setVerifiedFields] = useState({}); // { fieldKey: "approved"|"flagged"|"pending" }
@@ -1207,7 +1207,7 @@ export default function DocExtract() {
   const resultSecRef = useRef(null);
 
   // ── Derived ────────────────────────────────────────────────────────────────
-  const withPrompts  = dataPoints.filter((d) => d.prompt.trim()).length;
+  const withPrompts = dataPoints.filter((d) => d.prompt.trim()).length;
   const missingCount = dataPoints.length - withPrompts;
   const canRun =
     file &&
@@ -1224,14 +1224,14 @@ export default function DocExtract() {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  const onDragOver   = (e) => { e.preventDefault(); setDragging(true); };
-  const onDragLeave  = ()  => setDragging(false);
-  const onDrop       = (e) => { e.preventDefault(); setDragging(false); applyFile(e.dataTransfer.files[0]); };
+  const onDragOver = (e) => { e.preventDefault(); setDragging(true); };
+  const onDragLeave = () => setDragging(false);
+  const onDrop = (e) => { e.preventDefault(); setDragging(false); applyFile(e.dataTransfer.files[0]); };
   const onFileChange = (e) => { if (e.target.files[0]) applyFile(e.target.files[0]); };
 
   // ── Data Points ────────────────────────────────────────────────────────────
   const addDataPoint = (field, prompt) => {
-    const f = (field  ?? newField).trim();
+    const f = (field ?? newField).trim();
     const p = (prompt ?? newPrompt).trim();
     if (!f) return;
     const id = nextId();
@@ -1246,22 +1246,22 @@ export default function DocExtract() {
   const handlePresetChange = (e) => {
     const presetValue = e.target.value;
     if (!presetValue) return;  // No selection
-    
+
     if (presetValue === "Invoice Checking") {
       setSelectedPreset(PRESETS_POLICY_CHECKING);
     } else if (presetValue === "Financial Statements") {
       setSelectedPreset(PRESETS_FINANCE);
     }
-    else if (presetValue === "Legal Documents"){
+    else if (presetValue === "Legal Documents") {
       setSelectedPreset(PRESETS_LEGAL);
     }
-    else if (presetValue === "Health Care Documents"){
+    else if (presetValue === "Health Care Documents") {
       setSelectedPreset(PRESETS_HEALTHCARE_DOCUMENTS);
     }
-    else if (presetValue === "MSA Extraction"){
+    else if (presetValue === "MSA Extraction") {
       setSelectedPreset(PRESETS_MSA_EXTRACTION);
     }
-    else if (presetValue === "SOW Extraction"){
+    else if (presetValue === "SOW Extraction") {
       setSelectedPreset(PRESETS_SOW_EXTRACTION);
     }
     else {
@@ -1280,9 +1280,9 @@ export default function DocExtract() {
     setExpanded((prev) => { const n = { ...prev }; delete n[id]; return n; });
   };
 
-  const updateDpField  = (id, val) => setDataPoints((prev) => prev.map((d) => (d.id === id ? { ...d, field: val }  : d)));
+  const updateDpField = (id, val) => setDataPoints((prev) => prev.map((d) => (d.id === id ? { ...d, field: val } : d)));
   const updateDpPrompt = (id, val) => setDataPoints((prev) => prev.map((d) => (d.id === id ? { ...d, prompt: val } : d)));
-  const toggleExpand   = (id)      => setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
+  const toggleExpand = (id) => setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
 
   // ── Extraction ─────────────────────────────────────────────────────────────
   const runExtraction = async () => {
@@ -1323,7 +1323,7 @@ export default function DocExtract() {
         throw new Error(`Failed to parse response: ${jsonErr.message}`);
       }
 
-      if (!resp.ok)   throw new Error(data.error || `Server error ${resp.status}`);
+      if (!resp.ok) throw new Error(data.error || `Server error ${resp.status}`);
       if (data.error) throw new Error(data.error);
       if (!data.data) throw new Error("Invalid response: no data field returned from server");
 
@@ -1370,7 +1370,7 @@ export default function DocExtract() {
       wsData.push([k, cellValue]);
     });
     const ws = XLSX.utils.aoa_to_sheet(wsData);
-    ws["!cols"] = [{wch: 25}, {wch: 50}];
+    ws["!cols"] = [{ wch: 25 }, { wch: 50 }];
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Results");
     const filename = (file?.name?.replace(".pdf", "") || "result") + "_result.xlsx";
@@ -1390,43 +1390,43 @@ export default function DocExtract() {
   const approveAll = () =>
     setVerifiedFields((prev) => Object.fromEntries(Object.keys(prev).map((k) => [k, "approved"])));
   const saveJson = async () => {
-  try {
-    const out = {};
+    try {
+      const out = {};
 
-    Object.keys(editedResult).forEach((k) => {
-      out[k] = {
-        value: editedResult[k],
-        status: verifiedFields[k] || "pending",
-        note: flagNotes[k] || "",
+      Object.keys(editedResult).forEach((k) => {
+        out[k] = {
+          value: editedResult[k],
+          status: verifiedFields[k] || "pending",
+          note: flagNotes[k] || "",
+        };
+      });
+
+      const payload = {
+        file_name: file?.name || "",
+        out: out,
       };
-    });
 
-    const payload = {
-      file_name: file?.name || "",
-      out: out,
-    };
+      const res = await fetch("http://localhost:5000/api/save_result_status", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
-    const res = await fetch("http://localhost:5000/api/save_result_status", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
+      if (res.ok) {
+        const result = await res.json();
+        alert(result.message || "Results saved successfully to server.");
+      }
 
-    if (res.ok) {
-      const result = await res.json();
-      alert(result.message || "Results saved successfully to server.");
+      if (!res.ok) {
+        throw new Error(`Server error ${res.status}`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to save results to server: " + err.message);
     }
-
-    if (!res.ok) {
-      throw new Error(`Server error ${res.status}`);
-    }
-  } catch (err) {
-    console.error(err);
-    alert("Failed to save results to server: " + err.message);
-  }
-};
+  };
 
   const exportVerified = () => {
     const out = {};
@@ -1444,14 +1444,14 @@ export default function DocExtract() {
   };
 
   // ── Render ─────────────────────────────────────────────────────────────────
-  const resultEntries  = result ? Object.entries(result) : [];
+  const resultEntries = result ? Object.entries(result) : [];
   const resultFilename = file ? file.name.replace(".pdf", "") + "_result.json" : "result.json";
 
   // ── Verify screen derived ──────────────────────────────────────────────────
   const verifyEntries = result ? Object.entries(editedResult) : [];
   const approvedCount = Object.values(verifiedFields).filter((s) => s === "approved").length;
-  const flaggedCount  = Object.values(verifiedFields).filter((s) => s === "flagged").length;
-  const pendingCount  = Object.values(verifiedFields).filter((s) => s === "pending").length;
+  const flaggedCount = Object.values(verifiedFields).filter((s) => s === "flagged").length;
+  const pendingCount = Object.values(verifiedFields).filter((s) => s === "pending").length;
 
   const navItems = [
     {
@@ -1525,8 +1525,19 @@ export default function DocExtract() {
               </div>
             )}
             <button className="de-sb-toggle" onClick={() => setSidebarCollapsed(v => !v)} title="Toggle sidebar">
-              <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" stroke="currentColor" width="18" height="18">
-                <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" />
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                strokeWidth="2"
+                stroke="currentColor"
+                width="18"
+                height="18"
+                style={{
+                  transition: 'transform 0.3s ease',
+                  transform: sidebarCollapsed ? 'rotate(180deg)' : 'rotate(0deg)'
+                }}
+              >
+                <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
           </div>
@@ -1639,7 +1650,7 @@ export default function DocExtract() {
 
         {/* Dashboard - Empty for now */}
         {activeNav === "dashboard" && (
-          <Dashboard/>
+          <Dashboard setActiveNav={setActiveNav} />
         )}
 
         {/* Templates - Empty for now */}
@@ -1660,7 +1671,7 @@ export default function DocExtract() {
 
         {/* History - Empty for now */}
         {activeNav === "history" && (
-          <History/>
+          <History />
         )}
 
         {/* Settings - Empty for now */}

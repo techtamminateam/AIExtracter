@@ -13,7 +13,7 @@ function formatValue(val) {
   return String(val);
 }
 
-function exportToExcel(item) {
+export function exportToExcel(item) {
   const results = item.results || {};
   const rows = Object.entries(results).map(([field, value]) => ({
     Field: field,
@@ -34,7 +34,7 @@ function exportToExcel(item) {
   XLSX.writeFile(wb, filename);
 }
 
-function deletePdf(id) {
+export function deletePdf(id) {
   if (!window.confirm("Are you sure you want to delete this record? This action cannot be undone.")) {
     return;
   }
@@ -57,7 +57,7 @@ function deletePdf(id) {
 
 // ── Review View ───────────────────────────────────────────────────────────────
 
-function ReviewView({ item, onBack }) {
+export function ReviewView({ item, onBack }) {
   const [blobUrl, setBlobUrl] = useState(null);
   const [pdfError, setPdfError] = useState(false);
   const [pdfErrorMessage, setPdfErrorMessage] = useState("");

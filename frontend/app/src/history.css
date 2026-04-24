@@ -9,24 +9,25 @@
 /* ── CSS VARIABLES ─────────────────────────────────────────────────────────── */
 :root {
   --bg:         #ffffff;
-  --surface:    #eeeeee;
-  --surface2:   #9fb0de;
-  --surface3:   #181f30;
-  --border:     #b0b3ba;
-  --border2:    #9197aa;
-  --cyan:       #265cb3;
-  --cyan-dim:   #89a8f2;
-  --cyan-glow:  #1e27de1f;
-  --cyan-glow2: rgb(120, 153, 205);
-  --green:      #00ff9d;
-  --red:        #fe0000;
-  --yellow:     #ffc94d;
-  --purple:     #b06aff;
-  --text:       #050505;
-  --text-dim:   #5e6f88;
-  --text-muted: #9498a0;
-    --r:          6px;
-  --r-lg:       12px;
+  --surface:    #FAFAFA;
+  --surface2:   #F4F4F5;
+  --surface3:   #18181B;
+  --border:     #E4E4E7;
+  --border2:    #D4D4D8;
+  --cyan:       #4F46E5;
+  --cyan-dim:   #EEF2FF;
+  --cyan-glow:  rgba(79, 70, 229, 0.15);
+  --cyan-glow2: rgba(79, 70, 229, 0.05);
+  --green:      #10B981;
+  --red:        #EF4444;
+  --yellow:     #F59E0B;
+  --purple:     #8B5CF6;
+  --text:       #09090B;
+  --text-dim:   #52525B;
+  --text-muted: #A1A1AA;
+  --sans:       "Inter", system-ui, -apple-system, sans-serif;
+  --r:          8px;
+  --r-lg:       16px;
 }
 
 
@@ -41,21 +42,31 @@
 .de-surface-2 {
   background: var(--surface);
   width: 100%;
-  min-height: 100vh;   /* key fix */
-  padding: 30px;
+  min-height: 100vh;
+  padding: 32px 40px;
+}
+
+.de-surface-2 header h2 {
+  font-family: var(--sans);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
 }
 
 .de-step-sub {
-  font-size: 16px;
+  font-family: var(--sans);
+  font-size: 14px;
   color: var(--text-dim);
 }
 
 .table-container {
-  background-color: #ffffff;
-  border: 1px solid #a6a8aa; /* gray-200 */
-  border-radius: 12px; /* rounded-xl */
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 6px rgba(0, 0, 0, 0.02);
   overflow: hidden;
-  margin-top: 16px;
+  margin-top: 24px;
 }
 
 .custom-table {
@@ -64,39 +75,39 @@
 }
 
 .custom-table thead tr {
-  background-color: var(--surface); /* gray-50 */
-  border-bottom: 1px solid #e5e7eb;
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
 }
 
 .custom-table th {
   text-align: left;
-  padding: 12px 16px;
+  padding: 14px 20px;
+  font-family: var(--sans);
   font-size: 12px;
   font-weight: 600;
-  color: #393b40; /* gray-500 */
+  color: var(--text-dim);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-/* Custom paddings to match Tailwind spacing */
-.custom-table th:first-child {
-  padding-left: 20px;
-}
-
-.custom-table th:last-child {
-  padding-right: 20px;
+  letter-spacing: 0.5px;
 }
 
 .text-right {
   text-align: right;
 }
 
+.text-center {
+  text-align: center;
+  padding: 48px 24px !important;
+  color: var(--text-muted);
+  font-family: var(--sans);
+  font-size: 14px;
+}
+
 .table-body tr {
-  border-bottom: 1px solid #f9fafb; /* gray-50 */
+  border-bottom: 1px solid var(--border);
 }
 
 .table-body tr:last-child {
-  border-bottom: none; /* removes extra line at the end */
+  border-bottom: none;
 }
 
 .table-row {
@@ -240,34 +251,47 @@
 
 /* Buttons */
 .btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
+  gap: 6px;
+  font-family: var(--sans);
   font-size: 12px;
-  font-weight: 500;
-  padding: 4px 10px;
-  border-radius: 6px;
-  border: 1px solid;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: var(--r);
+  border: 1px solid transparent;
   cursor: pointer;
   transition: all 0.2s ease;
+  outline: none;
 }
 
 .btn.primary {
-  color: #2563eb;
-  border-color: #bfdbfe;
+  color: var(--cyan);
+  background-color: var(--cyan-glow);
 }
 
 .btn.primary:hover {
-  background-color: #eff6ff;
+  background-color: rgba(79, 70, 229, 0.25);
 }
 
 .btn.secondary {
-  color: #6b7280;
-  border-color: #e5e7eb;
+  color: var(--text-dim);
+  background-color: var(--surface2);
 }
 
 .btn.secondary:hover {
-  background-color: #f9fafb;
+  background-color: var(--border2);
+  color: var(--text);
+}
+
+.btn.danger {
+  color: var(--red);
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.btn.danger:hover {
+  background-color: rgba(239, 68, 68, 0.2);
 }
 
 .date-icon{

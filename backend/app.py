@@ -30,6 +30,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 app = Flask(__name__)
 app.config.from_object(UploadConfig)
+app.register_blueprint(history_bp, url_prefix="/api")
+app.register_blueprint(result_status_bp, url_prefix="/api")
 CORS(app)
 
 app.config.from_object(Config)
@@ -479,8 +481,7 @@ def health():
         }
     })
 
-app.register_blueprint(history_bp, url_prefix="/api")
-app.register_blueprint(result_status_bp, url_prefix="/api")
+
 
 @app.route("/api/pdf/<path:filename>", methods=["GET"])
 def serve_pdf(filename):
